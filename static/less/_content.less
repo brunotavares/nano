@@ -237,8 +237,20 @@
 
 .tutorial-body {
 	padding: 20px;
+	background: #FFF;
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	overflow: auto;
+
 	.markdown-body {
 		padding: 0;
-		background-color: transparent;
+
+		& > h1:first-child {
+			color: #39464D;
+			margin-bottom: 20px;
+		}
 	}
 }
