@@ -1,0 +1,11 @@
+{
+	"name": "Nano-Theme Example",
+	"description": "Example project used to test JSDoc. It contains all tags defined in [usejsdoc.org](http://usejsdoc.org).\nJSDoc is able to parse package.json files and incorporate into the output index.html page.",
+	"version": "1.0-test",
+	"licenses": [
+        {
+           "type": "BSD",
+           "url": "http://opensource.org/licenses/bsd-license.php"
+        }
+    ]
+}

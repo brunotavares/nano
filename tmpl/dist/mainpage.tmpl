@@ -1,0 +1,6 @@
+<?js
+var files,
+	data = obj,
+	self = this;
+?><?js if (data.kind === 'package') { ?><h3 class="package-info"><?js= data.name ?><?js if(data.name && data.version) { ?>&nbsp;-&nbsp;<?js } ?><?js= data.version ?></h3><?js } ?><?js if (data.readme) { ?><div class="readme"><h3 class="readme-header">Readme</h3><div class="markdown-body"><?js= data.readme ?></div></div><?js } ?><?js if (data.kind === 'mainpage') {
+	files = self.find({kind: 'file'}); ?><?js if (files.length) { ?><h3>Files</h3><?js files.forEach(function(file) { ?><?js= self.partial('members.tmpl', file) ?><?js }); ?><?js } ?><?js } ?>

@@ -1,0 +1,55 @@
+<?js
+var navigationItems = obj.navigationItems,
+    tutorials = obj.tutorials;
+
+function renderNavigationItem(item, level) {
+    var s = '<a ';
+
+    if (item.href) {
+        s += 'id="side-nav-' + item.href.replace('#', '') + '" href="' + item.href + '" ';
+    }
+
+    s += 'class="node lvl-' + level + ' ' + item.type + '">';
+
+    if (item.items) {
+        s += '<span class="arrow"></span>';
+    }
+
+    s += item.text + '</a>';
+
+    if (item.items) {
+        s += '<div class="items-wrapper" style="display: none;">' +
+            item.items.map(function(item) {
+                return renderNavigationItem(item, level + 1);
+            }).join('') +
+        '</div>';
+    }
+
+    return s;
+}
+
+function renderNavigation(items) {
+    if (items) {
+        return items.map(function(item) {
+            var s = '<h4>'+ item.text +'</h4>';
+
+            if (item.items) {
+                s += item.items.map(function(item){
+                    return renderNavigationItem(item, 0);
+                }).join('');
+            }
+
+            return s;
+        }).join('');
+    }
+
+    return '';
+}
+
+navigationItems = renderNavigation(navigationItems);
+tutorials = renderNavigation(tutorials);
+
+?><!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>API Documentation</title><link rel="stylesheet" href="select2/select2.css"><link rel="stylesheet" href="css/source-code.css"><link rel="stylesheet" href="css/nano-theme.css"></head><body><div class="main-nav"><input type="hidden" name="search" id="search" placeholder="Search"></div><div class="side-nav" id="side-nav"><?js if (navigationItems) { ?><div id="side-nav-api"><?js= navigationItems ?></div><?js } ?><?js if (tutorials) { ?><div id="side-nav-tutorials"><?js= tutorials ?></div><?js } ?></div><div class="content-body" id="content-body"></div><script type="text/javascript">var global = {
+            longnameToUrl: <?js= JSON.stringify(this.longnameToUrl) ?>,
+            indexContent: <?js= JSON.stringify({ html: this.partial('container.tmpl', {docs: docs}) }) ?>
+        };</script><script type="text/javascript" src="search-data.js"></script><script type="text/javascript" src="js/source-code.js"></script><script type="text/javascript" src="js/nano-theme.js"></script><script type="text/javascript" src="select2/select2.js"></script></body></html>

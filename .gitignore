@@ -1,0 +1,32 @@
+### Node / Build Excludes ###
+node_modules/*
+static/bower_components/*
+example/output
+example/output-default
+
+### Generic Excludes ###
+*.bak
+
+### Dot-directory catch-all ###
+.*/
+
+### OS Excludes ###
+.DS_Store*
+Thumbs.db
+
+### Eclipse Users ###
+.cache
+.project
+.settings
+
+### Sublime Users ###
+*.sublime-project
+*.sublime-workspace
+
+### IntelliJ Users ###
+*.iml
+
+### Vim Users ###
+*.swp
+*.swo
+*~

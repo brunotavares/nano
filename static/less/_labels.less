@@ -1,0 +1,33 @@
+//
+// Labels
+// --------------------------------------------------
+
+.label {
+  display: inline;
+  padding: 1px 3px;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 1;
+  color: #FFF;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+  background-color: #A8A8A8;
+
+  // Empty labels collapse automatically (not available in IE8)
+  &:empty {
+    display: none;
+  }
+}
+
+// Colors
+// Contextual variations (linked labels get darker on :hover)
+
+.label-singleton  { background-color: #759B7C; }
+.label-abstract   { background-color: #747496; }
+.label-protected  { background-color: #927496; }
+.label-private    { background-color: #BE9F66; }
+.label-inner      { background-color: #BE9F66; }
+.label-readonly   { background-color: #66BEA5; }
+.label-static     { background-color: #9A6CA0; }

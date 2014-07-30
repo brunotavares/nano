@@ -1,0 +1,167 @@
+<?js
+var doc = obj.doc,
+    self = this,
+    defaultObjectClass = '',
+    hideTutorials = !!obj.hideTutorials,
+    hideProperties = !!obj.hideProperties,
+    hideTodo = !!obj.hideTodo,
+    items = [];
+
+// Check if the default value is an object or array; if so, apply code highlighting
+if (doc.defaultvalue && (doc.defaultvaluetype === 'object' || doc.defaultvaluetype === 'array')) {
+    doc.defaultvalue = '<pre class="prettyprint"><code>' + doc.defaultvalue + '</code></pre>';
+    defaultObjectClass = ' class="object-value"';
+}
+
+// properties
+var properties = doc.properties;
+if (!hideProperties && properties && properties.length) {
+    items.push({
+        title: 'Properties:',
+        renderer: function() {
+            return self.partial('properties.tmpl', properties);
+        }
+    });
+}
+
+// version
+if (doc.version) {
+    items.push({
+        title: 'Version:',
+        renderer: function() {
+            return '<ul><li>' + doc.version + '</li></ul>';
+        }
+    });
+}
+
+//since
+if (doc.since) {
+    items.push({
+        title: 'Since:',
+        renderer: function() {
+            return '<ul><li>' + doc.since + '</li></ul>';
+        }
+    });
+}
+
+// inherited
+if (doc.inherited && doc.inherits) {
+    items.push({
+        title: 'Inherited From:',
+        renderer: function() {
+            return '<ul><li>' + self.linkto(doc.inherits, self.htmlsafe(doc.inherits)) + '</li></ul>';
+        }
+    });
+}
+
+// deprecated
+if (doc.deprecated) {
+    items.push({
+        title: 'Deprecated:',
+        renderer: function() {
+            return '<ul><li>' + (doc.deprecated === true ? 'Yes' : doc.deprecated) + '</li></ul>';
+        }
+    });
+}
+
+// author
+if (doc.author && doc.author.length) {
+    items.push({
+        title: 'Author:',
+        renderer: function() {
+            return '<ul>' +
+                doc.author.map(function(a) {
+                    return '<li>' + self.resolveAuthorLinks(a) + '</li>';
+                }).join('') +
+                '</ul>';
+        }
+    });
+}
+
+//copyright
+if (doc.copyright) {
+    items.push({
+        title: 'Copyright:',
+        renderer: function() {
+            return '<ul><li>' + doc.copyright + '</li></ul>';
+        }
+    });
+}
+
+//license
+if (doc.license) {
+    items.push({
+        title: 'License:',
+        renderer: function() {
+            return '<ul><li>' + doc.license + '</li></ul>';
+        }
+    });
+}
+
+
+// default value
+if (doc.defaultvalue) {
+    items.push({
+        title: 'Default Value:',
+        renderer: function() {
+            return '<ul><li ' + defaultObjectClass + '>' + doc.defaultvalue + '</li></ul>';
+        }
+    });
+}
+
+// meta
+if (doc.meta && self.outputSourceFiles) {
+    items.push({
+        title: 'Source:',
+        renderer: function() {
+            return '<ul><li>' +
+                self.linktoblank(doc.meta.shortpath) +
+                ' ,' +
+                self.linktoblank(doc.meta.shortpath, 'line ' + doc.meta.lineno, null, 'line' + doc.meta.lineno) +
+                '</li></ul>';
+        }
+    });
+}
+
+// tutorials
+if (!hideTutorials && doc.tutorials && doc.tutorials.length) {
+    items.push({
+        title: 'Tutorials:',
+        renderer: function() {
+            return '<ul>' +
+                doc.tutorials.map(function(t) {
+                    return '<li>' + self.tutoriallink(t) + '</li>';
+                }).join('') +
+                '</ul>';
+        }
+    });
+}
+
+//see
+if (doc.see && doc.see.length) {
+    items.push({
+        title: 'See:',
+        renderer: function() {
+            return '<ul>' +
+                doc.see.map(function(s) {
+                    return '<li>' + self.linkto(s) + '</li>';
+                }).join('') +
+                '</ul>';
+        }
+    });
+}
+
+// todo
+if (doc.todo && doc.todo.length) {
+    items.push({
+        title: 'To Do:',
+        renderer: function() {
+            return '<ul>' +
+                doc.todo.map(function(t) {
+                    return '<li>' + t + '</li>';
+                }).join('') +
+                '</ul>';
+        }
+    });
+}
+?><?js if (items.length) { ?><div class="details"><?js= items.map(function(item) { return '<h5>'+ item.title + '</h5>' + item.renderer() + '</ul>'; }).join('') ?></div><?js } ?>

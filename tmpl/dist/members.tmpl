@@ -1,0 +1,16 @@
+<?js
+var self = this;
+
+// members.tmpl OK!
+function getShortDescription(doc) {
+    return self.normalizeShortDescription(doc.summary||doc.description||'');
+}
+
+function getLongDescription(doc) {
+    return doc.kind === 'class' ? 'Constructor' : (doc.description||doc.summary||'');
+}
+
+var doc = obj,
+    self = this,
+    meta = doc.meta;
+?><div id="<?js= doc.id ?>" class="member" style="display: block"><a href="" class="side expandable"><span>&nbsp;</span></a><div class="title"><div class="meta"><?js if (doc.inherited && doc.inherits) { ?><a href="#<?js= encodeURIComponent(doc.inherits) ?>" class="doc-link"><?js= this.htmlsafe(doc.inherits) ?></a><br><?js } ?><?js if (meta && self.outputSourceFiles) {?><?js= self.linkto(meta.shortpath,'<small>view source</small>', 'source-link', 'line' + meta.lineno).replace('<a', '<a target="_blank"') ?><?js } ?></div><a href="" class="name expandable"><?js= doc.name + (doc.signature||'') ?></a> <?js= doc.attribs ?></div><div class="description"><div class="short"><?js= getShortDescription(doc) ?></div><div class="long"><p><?js= getLongDescription(doc) ?></p><?js if (doc.type && doc.type.names) {?><h5>Type:</h5><ul><li><?js= self.partial('type.tmpl', doc.type.names) ?></li></ul><?js } ?><?js= this.partial('details.tmpl', {doc: doc}) ?><?js if (doc.fires && fires.length) { ?><h5>Fires:</h5><ul><?js fires.forEach(function(f) { ?><li><?js= self.linkto(f) ?></li><?js }); ?></ul><?js } ?><?js if (doc.examples && examples.length) { ?><h5>Example<?js= examples.length > 1? 's':'' ?></h5><?js= this.partial('examples.tmpl', examples) ?><?js } ?></div></div></div>

@@ -1,0 +1,22 @@
+{
+    "source": {
+        "include": [
+            "src/",
+            "README.md",
+            "package.json"
+        ]
+    },
+    "opts": {
+    	"tutorials": "tutorials",
+        "private": true,
+        "verbose": true,
+
+    	// nano
+        "template": "..",
+        "destination": "output"
+
+        // default
+        // "destination": "output-default"
+
+    }
+}

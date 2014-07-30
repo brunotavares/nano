@@ -1,0 +1,9 @@
+{
+  "name": "nano-jsdoc-theme",
+  "version": "1.0.0",
+  "dependencies": {
+    "grunt": "~0.4.5",
+    "jquery": "~2.1.1",
+    "select2": "~3.5.1"
+  }
+}

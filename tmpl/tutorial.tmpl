@@ -1,0 +1,17 @@
+<?js
+var self = this;
+?>
+<div class="tutorial-body">
+	<?js if (children.length > 0) { ?>
+		<div class="side-content">
+		    <ul>
+		    	<?js children.forEach(function(t) { ?>
+		        	<li><?js= self.tutoriallink(t.name) ?></li>
+		    	<?js }); ?>
+		    </ul>
+		</div>
+	<?js } ?>
+	<div class="markdown-body">
+    	<?js= content ?>
+	</div>
+</div>

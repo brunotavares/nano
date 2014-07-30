@@ -1,0 +1,34 @@
+<?js
+
+// method.tmpl OK!
+function getShortDescription(doc) {
+    if (isClass) {
+        if (!doc.classdesc) {
+            return 'Constructor';
+        }
+
+        return self.normalizeShortDescription(doc.summary||doc.description||'Constructor');
+    }
+
+    return self.normalizeShortDescription(doc.summary||doc.description||'');
+}
+
+function getLongDescription(doc) {
+    if (isClass) {
+        if (!doc.classdesc) {
+            return 'Constructor';
+        }
+
+        return doc.summary||doc.description||'Constructor';
+    }
+
+    return doc.description||doc.summary||'';
+}
+
+var doc = obj,
+    self = this,
+    meta = doc.meta,
+    returns = doc.returns,
+    params = doc.params,
+    isClass = doc.kind === 'class';
+?><div id="<?js= doc.id ?>" class="member" style="display: block"><a href="" class="side expandable"><span>&nbsp;</span></a><div class="title"><div class="meta"><?js if (doc.inherited && doc.inherits) { ?><a href="#<?js= encodeURIComponent(doc.inherits) ?>" class="doc-link"><?js= this.htmlsafe(doc.inherits) ?></a><br><?js } ?><?js if (meta && self.outputSourceFiles) {?><?js= self.linkto(meta.shortpath,'<small>view source</small>', 'source-link', 'line' + meta.lineno).replace('<a', '<a target="_blank"') ?><?js } ?></div><a href="" class="name expandable"><?js= (isClass ? 'new ' : '') + doc.name + (doc.kind !== 'event' ? doc.signature : '') ?></a> <?js= doc.attribs ?></div><div class="description"><div class="short"><?js= getShortDescription(doc) ?></div><div class="long"><p><?js= getLongDescription(doc) ?></p><?js if (kind === 'event' && doc.type && doc.type.names) {?><h5>Type:</h5><ul><li><?js= self.partial('type.tmpl', doc.type.names) ?></li></ul><?js } ?><?js if (doc['this']) { ?><h5>This:</h5><ul><li><?js= this.linkto(doc['this'], doc['this']) ?></li></ul><?js } ?><?js if (params && params.length) { ?><h5>Parameters:</h5><?js= self.partial('params.tmpl', params) ?><?js } ?><?js= this.partial('details.tmpl', {doc: doc, hideTutorials: isClass}) ?><?js if (!isClass && doc.requires && doc.requires.length) { ?><h5>Requires:</h5><ul><?js doc.requires.forEach(function(r) { ?><li><?js= self.linkto(r) ?></li><?js }); ?></ul><?js } ?><?js if (doc.fires && fires.length) { ?><h5>Fires:</h5><ul><?js fires.forEach(function(f) { ?><li><?js= self.linkto(f) ?></li><?js }); ?></ul><?js } ?><?js if (doc.listens && listens.length) { ?><h5>Listens to Events:</h5><ul><?js listens.forEach(function(f) { ?><li><?js= self.linkto(f) ?></li><?js }); ?></ul><?js } ?><?js if (doc.listeners && listeners.length) { ?><h5>Listeners of This Event:</h5><ul><?js listeners.forEach(function(f) { ?><li><?js= self.linkto(f) ?></li><?js }); ?></ul><?js } ?><?js if (doc.exceptions && exceptions.length) { ?><h5>Throws:</h5><ul><?js exceptions.forEach(function(r) { ?><li><?js= self.partial('exceptions.tmpl', r) ?></li><?js }); ?></ul><?js } ?><?js if (doc.returns && returns.length) { ?><h5>Returns:</h5><ul><?js returns.forEach(function(r) { ?><li><?js= self.partial('returns.tmpl', r) ?></li><?js }); ?></ul><?js } ?><?js if (doc.examples && examples.length) { ?><h5>Example<?js= examples.length > 1? 's':'' ?></h5><?js= this.partial('examples.tmpl', examples) ?><?js } ?></div></div></div>

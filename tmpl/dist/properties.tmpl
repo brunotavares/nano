@@ -1,0 +1,58 @@
+<?js
+    var props = obj;
+    var self = this;
+
+    /* sort subprops under their parent props (like opts.classname) */
+    var parentProp = null;
+    props.forEach(function(prop, i) {
+        if (!prop) { return; }
+        if ( parentProp && prop.name && prop.name.indexOf(parentProp.name + '.') === 0 ) {
+            prop.name = prop.name.substr(parentProp.name.length+1);
+            parentProp.subprops = parentProp.subprops || [];
+            parentProp.subprops.push(prop);
+            props[i] = null;
+        }
+        else {
+            parentProp = prop;
+        }
+    });
+
+    /* determine if we need extra columns, "attributes" and "default" */
+    props.hasAttributes = false;
+    props.hasDefault = false;
+    props.hasName = false;
+
+    props.forEach(function(prop) {
+        if (!prop) { return; }
+
+        if (prop.optional || prop.nullable || prop.variable) {
+            props.hasAttributes = true;
+        }
+
+        if (prop.name) {
+            props.hasName = true;
+        }
+
+        if (typeof prop.defaultvalue !== 'undefined') {
+            props.hasDefault = true;
+        }
+    });
+?><ul class="properties"><?js props.forEach(function(prop) {
+    if (!prop) {
+        return;
+    }
+
+    var attributes = [];
+
+    if (prop.optional) {
+        attributes.push('optional');
+    }
+
+    if (prop.nullable) {
+        attributes.push('nullable');
+    }
+
+    if (prop.variable) {
+        attributes.push('repeatable');
+    }
+?><li><span class="name"><?js= prop.name ?></span> <?js if (prop.type && prop.type.names) {?> : <?js= self.partial('type.tmpl', prop.type.names) ?> <?js } ?> <?js if (attributes.lenth) { ?> <span class="attributes">(<?js= attributes.join(', ') ?></span> <?js } ?><p class="prop-desc"><?js= prop.description ?></p><?js if (typeof prop.defaultvalue !== 'undefined') { ?><p>Defaults to: <?js= self.htmlsafe(prop.defaultvalue) ?></p><?js } ?><?js if (prop.subprops) { ?><h5>Properties</h5><?js= self.partial('properties.tmpl', prop.subprops) ?><?js } ?></li><?js }); ?></ul>
