@@ -19,10 +19,11 @@ html, body {
 	height: @tab-bar-height;
 
 	.tabs {
+		float: left;
 		margin-bottom: 0;
 		padding-left: 0;
 		list-style: none;
-		height: @tab-height;
+		height: @tab-bar-height;
 		padding: 0 20px;
 		font-size: 16px;
 		color: #FFF;
@@ -30,6 +31,11 @@ html, body {
 
 	.tabs li {
 		float: left;
+		border-bottom: @tab-indicator-height solid #39464D;
+
+		&.tabs-active {
+			border-bottom-color: #C8D9E2;
+		}
 	}
 
 	.tabs a {
@@ -41,12 +47,6 @@ html, body {
 		color: #FFF;
 	}
 
-	.tabs-active {
-		height: @tab-indicator-height;
-		width: 102px;
-		background: #C8D9E2;
-		-webkit-transform: translate3d(147px, 0, 0);
-	}
 }
 
 .side-nav {

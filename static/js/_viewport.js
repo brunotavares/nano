@@ -19,7 +19,7 @@
 		url = route[0];
 		member = route[1];
 
-		if (!route) {
+		if (!url) {
 			highlightNavigationItem('');
 			setContent(indexContent);
 			prettyPrint();
@@ -27,9 +27,6 @@
 		else if (url) {
 			highlightNavigationItem(url);
 			loadContent(url, member);
-		}
-		else {
-			setContent('<h1>Not found...</h1>');
 		}
 	}
 
@@ -58,6 +55,9 @@
 						contentCache[url] = data.html;
 						setContent(data.html);
 						focusMember(member);
+					},
+					failure: function() {
+						setContent('<h1>Not found...</h1>');
 					}
 				});
 			}

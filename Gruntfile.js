@@ -113,24 +113,28 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Tasks
-    grunt.task.registerTask('example', 'Generate the example docs', function() {
-        var cb = this.async(),
-            exec = require('child_process').exec;
+    grunt.task.registerTask(
+        'example',
+        'Generate the example docs. Pass example:default to generate against the default template',
+        function(template) {
+            var cb = this.async(),
+                exec = require('child_process').exec;
 
-        exec('node ../node_modules/jsdoc/jsdoc.js -c conf.json', {
-            maxBuffer: 5000 * 1024,
-            cwd: './example'
-        }, function(error, stdout, stderr) {
-            if (error || stderr) {
-                grunt.log.error(error);
-            }
-            if (stdout) {
-                grunt.log.writeln(stdout);
-            }
+            exec('node ../node_modules/jsdoc/jsdoc.js -c '+ (template === 'default' ? 'conf-default.js' : 'conf.json'), {
+                maxBuffer: 5000 * 1024,
+                cwd: './example'
+            }, function(error, stdout, stderr) {
+                if (error || stderr) {
+                    grunt.log.error(error);
+                }
+                if (stdout) {
+                    grunt.log.writeln(stdout);
+                }
 
-            cb();
-        });
-    });
+                cb();
+            });
+        }
+    );
 
     grunt.task.registerTask(
         'release',

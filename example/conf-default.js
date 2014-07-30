@@ -11,8 +11,7 @@
         "private": true,
         "verbose": true,
 
-    	// nano
-        "template": "..",
-        "destination": "output"
+    	// default
+        "destination": "output-default"
     }
 }
