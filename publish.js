@@ -209,7 +209,10 @@
 
         function resolveNamespace(namespaces, depth) {
             var parentNamespace;
-            depth = depth || namespaces.length - 1;
+
+            if (typeof depth === 'undefined') {
+                depth = namespaces.length - 1;
+            }
 
             if (depth !== 0) {
                 parentNamespace = resolveNamespace(namespaces, depth - 1);
